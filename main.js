@@ -49,8 +49,8 @@ function drawBitmap(bitmap,pixel) {
 
 function update(world) {
     // console.log(world.frame);
-    
-    
+    ff.moveFrame(world.frame, world.pixel)
+
 }
 
 
