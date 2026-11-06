@@ -1,20 +1,21 @@
-const { IsKeyDown, KEY_RIGHT, KEY_LEFT, KEY_UP, KEY_DOWN, FONT_BITMAP, GetScreenHeight, GetScreenWidth, rlGetFramebufferWidth, rlSetUniformSampler } = require("raylib");
+const r = require("raylib");
+const cmd = require("./actionCmd");
 
 function createFilterFrame(x, y, width, height) {
     return {x, y, width, height}
 }
 
 function moveFrame(frame, pixelConfig) {
-    if (IsKeyDown(KEY_RIGHT)) {
+    if (r.IsKeyDown(r.KEY_RIGHT)) {
         frame.x += pixelConfig.height;
     }
-    if (IsKeyDown(KEY_LEFT)) {
+    if (r.IsKeyDown(r.KEY_LEFT)) {
         frame.x -= pixelConfig.height;
     }
-    if(IsKeyDown(KEY_UP)){
+    if(r.IsKeyDown(r.KEY_UP)){
         frame.y -= pixelConfig.width;
     }
-    if(IsKeyDown(KEY_DOWN)){
+    if(r.IsKeyDown(r.KEY_DOWN)){
         frame.y += pixelConfig.width;
     }
     constrainFrameInsideWindow(frame);
@@ -29,12 +30,12 @@ function constrainFrameInsideWindow(frame) {
         frame.y = 0;
     }
 
-    if(frame.x + frame.width > GetScreenWidth()){
-        frame.x = GetScreenWidth() - frame.width;
+    if(frame.x + frame.width > r.GetScreenWidth()){
+        frame.x = r.GetScreenWidth() - frame.width;
     }
 
-    if(frame.y + frame.height > GetScreenHeight()){
-        frame.y = GetScreenHeight() - frame.height;
+    if(frame.y + frame.height > r.GetScreenHeight()){
+        frame.y = r.GetScreenHeight() - frame.height;
     }
 }
 
@@ -64,6 +65,18 @@ function extractPixelsBrightness(bitmap, frame, pixelConfig){
     return outer;
 }
 
+
+function modifyFrameDimentions(frame, pixelConfig) {
+    if(cmd.checkDecSizeCmd()){
+        frame.width -= pixelConfig.width
+        frame.height -= pixelConfig.height
+    }
+    if(cmd.checkIncSizeCmd()){
+        frame.width += pixelConfig.width
+        frame.height += pixelConfig.height
+    }
+}
+
 function applyFilter(bitmap, frame, pixel) {
     
 }
@@ -73,4 +86,5 @@ module.exports = {
     moveFrame,
     extractPixelsBrightness,
     fetchFrameLocationRange,
+    modifyFrameDimentions,
 }

@@ -5,14 +5,14 @@ const ff = require("./filterFrame")
 
 const config = {
     screen : {
-        width: 300,
-        height: 300,
+        width: 600,
+        height: 600,
         title: "Filter",
         fps: 50,
     },
     pixel:{
-        width: 10,
-        height: 10,
+        width: 20,
+        height: 20,
     },
     bitmap: w.wolverine,
 }
@@ -59,7 +59,7 @@ function drawBitmapInsideRange(bitmap, range, pixel) {
 function update(world) {
     // console.log(world.frame);
     ff.moveFrame(world.frame, world.pixel)
-
+    ff.modifyFrameDimentions(world.frame, world.pixel)
 }
 
 
