@@ -1,6 +1,7 @@
 const r = require("raylib")
 const b = require("./bitmap")
 const w = require("./wolverine")
+const ff = require("./filterFrame")
 
 const config = {
     screen : {
@@ -17,12 +18,16 @@ const config = {
 }
 
 function setup() {
-    const {screen} = config;
+    const {screen, pixel,bitmap} = config;
+    const frame = ff.createFilterFrame(0, 0, pixel.width * 10, pixel.height * 10)
+    const coloredBitmap = b.getColoredBitmap(bitmap);
 
     r.SetTraceLogLevel(r.LOG_NONE);
     r.InitWindow(screen.width, screen.height, screen.title);
     r.SetTargetFPS(screen.fps);
 
+    config.frame = frame;
+    config.coloredBitmap = coloredBitmap;
     return config;
 }
 
@@ -43,16 +48,18 @@ function drawBitmap(bitmap,pixel) {
 }
 
 function update(world) {
+    // console.log(world.frame);
+    
     
 }
 
 
 function draw(world) {
-    const coloredBitmap = b.getColoredBitmap(world.bitmap)
     r.BeginDrawing();
     r.ClearBackground(r.WHITE);
 
-    drawBitmap(coloredBitmap, world.pixel);
+    drawBitmap(world.coloredBitmap, world.pixel);
+    r.DrawRectangleLinesEx(world.frame,2, r.RED)
     r.EndDrawing();
 }
 
