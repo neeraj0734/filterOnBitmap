@@ -5,21 +5,21 @@ const ff = require("./filterFrame")
 
 const config = {
     screen : {
-        width: 500,
-        height: 500,
+        width: 300,
+        height: 300,
         title: "Filter",
         fps: 50,
     },
     pixel:{
-        width: 15,
-        height: 15,
+        width: 10,
+        height: 10,
     },
     bitmap: w.wolverine,
 }
 
 function setup() {
     const {screen, pixel,bitmap} = config;
-    const frame = ff.createFilterFrame(0, 0, pixel.width * 10, pixel.height * 10)
+    const frame = ff.createFilterFrame(0, 0, pixel.width * 15, pixel.height * 15)
     const coloredBitmap = b.getColoredBitmap(bitmap);
 
     r.SetTraceLogLevel(r.LOG_NONE);
@@ -47,6 +47,15 @@ function drawBitmap(bitmap,pixel) {
     }
 }
 
+function drawBitmapInsideRange(bitmap, range, pixel) {
+    for (let row = range.hRange.st; row < range.hRange.end; row++) {
+        for (let col = range.vRange.st; col < range.vRange.end; col++) {
+            const pixelBrightness = bitmap.points[col][row];
+            drawPixel(row*pixel.height, col*pixel.width, pixel.width, pixel.height, pixelBrightness);
+        }    
+    }
+}
+
 function update(world) {
     // console.log(world.frame);
     ff.moveFrame(world.frame, world.pixel)
@@ -55,10 +64,12 @@ function update(world) {
 
 
 function draw(world) {
+    const frameRange = ff.fetchFrameLocationRange(world.frame, world.pixel)
     r.BeginDrawing();
     r.ClearBackground(r.WHITE);
 
-    drawBitmap(world.coloredBitmap, world.pixel);
+    // drawBitmap(world.coloredBitmap, world.pixel);
+    drawBitmapInsideRange(world.coloredBitmap, frameRange, world.pixel)
     r.DrawRectangleLinesEx(world.frame,2, r.RED)
     r.EndDrawing();
 }

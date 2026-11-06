@@ -64,8 +64,13 @@ function extractPixelsBrightness(bitmap, frame, pixelConfig){
     return outer;
 }
 
+function applyFilter(bitmap, frame, pixel) {
+    
+}
+
 module.exports = {
-    extractPixelsBrightness,
     createFilterFrame,
     moveFrame,
+    extractPixelsBrightness,
+    fetchFrameLocationRange,
 }
