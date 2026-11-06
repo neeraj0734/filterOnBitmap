@@ -10,9 +10,10 @@ const config = {
         fps: 50,
     },
     pixel:{
-        width: 10,
-        height: 10,
-    }
+        width: 15,
+        height: 15,
+    },
+    bitmap: w.wolverine,
 }
 
 function setup() {
@@ -35,8 +36,8 @@ function drawBitmap(bitmap,pixel) {
 
     for (let row = 0; row < width; row++) {
         for (let col = 0; col < height; col++) {
-            const pixelBrightness = bitmap[row][col];
-            drawPixel(row, col, pixel.width, pixel.height, pixelBrightness);
+            const pixelBrightness = bitmap.points[col][row];
+            drawPixel(row*pixel.height, col*pixel.width, pixel.width, pixel.height, pixelBrightness);
         }    
     }
 }
@@ -47,9 +48,11 @@ function update(world) {
 
 
 function draw(world) {
-    
+    const coloredBitmap = b.getColoredBitmap(world.bitmap)
     r.BeginDrawing();
     r.ClearBackground(r.WHITE);
+
+    drawBitmap(coloredBitmap, world.pixel);
     r.EndDrawing();
 }
 

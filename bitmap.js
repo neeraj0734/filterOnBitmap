@@ -17,7 +17,11 @@ function getColoredBitmap(bitmap){
         }
         coloredBitmap.push(inner);
     }
-    return coloredBitmap;
+    return {
+        width: bitmap.width,
+        height: bitmap.height,
+        points: coloredBitmap,
+    };
 }
 
 module.exports = {
