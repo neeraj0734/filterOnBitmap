@@ -1,4 +1,4 @@
-const { IsKeyDown, KEY_RIGHT, KEY_LEFT, KEY_UP, KEY_DOWN, FONT_BITMAP, GetScreenHeight, GetScreenWidth, rlGetFramebufferWidth } = require("raylib");
+const { IsKeyDown, KEY_RIGHT, KEY_LEFT, KEY_UP, KEY_DOWN, FONT_BITMAP, GetScreenHeight, GetScreenWidth, rlGetFramebufferWidth, rlSetUniformSampler } = require("raylib");
 
 function createFilterFrame(x, y, width, height) {
     return {x, y, width, height}
@@ -18,7 +18,6 @@ function moveFrame(frame, pixelConfig) {
         frame.y += pixelConfig.width;
     }
     constrainFrameInsideWindow(frame);
-    console.log(frame);
 }
 
 function constrainFrameInsideWindow(frame) {
@@ -39,8 +38,34 @@ function constrainFrameInsideWindow(frame) {
     }
 }
 
+function fetchFrameLocationRange(frame, pixelConfig) {
+    const hRnageSt = frame.x/pixelConfig.width;
+    const hRnageEnd = (frame.x + frame.width)/pixelConfig.width;
+    const vRangeSt = frame.y / pixelConfig.height;
+    const vRnageEnd = (frame.y + frame.height)/pixelConfig.height;
+
+    return {
+        hRange: {st: hRnageSt, end: hRnageEnd },
+        vRange: {st: vRangeSt, end: vRnageEnd },
+    }
+}
+
+
+function extractPixelsBrightness(bitmap, frame, pixelConfig){
+    const frameRange = fetchFrameLocationRange(frame, pixelConfig);
+    const outer = [];
+    for (let row = frameRange.vRange.st; row < frameRange.vRange.end + 1; row++) {
+        const inner = [];
+        for (let col = frameRange.hRange.st; col < frameRange.hRange.end + 1; col++) {
+          inner.push(bitmap.points[row][col]);
+        }
+        outer.push(inner);
+    }
+    return outer;
+}
+
 module.exports = {
+    extractPixelsBrightness,
     createFilterFrame,
     moveFrame,
-    constrainFrameInsideWindow,
 }
