@@ -60,6 +60,7 @@ function update(world) {
     // console.log(world.frame);
     ff.moveFrame(world.frame, world.pixel)
     ff.modifyFrameDimentions(world.frame, world.pixel)
+    ff.applyZoomEffect(world.pixel, 1)
 }
 
 
@@ -70,7 +71,10 @@ function draw(world) {
 
     // drawBitmap(world.coloredBitmap, world.pixel);
     drawBitmapInsideRange(world.coloredBitmap, frameRange, world.pixel)
-    r.DrawRectangleLinesEx(world.frame,2, r.RED)
+    r.DrawRectangleLinesEx(world.frame,2, r.RED);
+
+    // const keycode = r.GetKeyPressed()
+    // console.log(keycode)
     r.EndDrawing();
 }
 

@@ -77,6 +77,23 @@ function modifyFrameDimentions(frame, pixelConfig) {
     }
 }
 
+function applyZoomEffect(pixel, zoomBy) {
+    if (cmd.checkZoomIn()) {
+        pixel.width = pixel.width + zoomBy
+        pixel.height = pixel.height + zoomBy
+        console.log("Zoom in");
+        
+    }
+    if (cmd.checkZoomOut()) {
+        pixel.width = pixel.width - zoomBy
+        pixel.height = pixel.height - zoomBy
+        console.log("Zoom Out");
+        
+    }
+    console.log(pixel);
+    
+}
+
 function applyFilter(bitmap, frame, pixel) {
     
 }
@@ -87,4 +104,5 @@ module.exports = {
     extractPixelsBrightness,
     fetchFrameLocationRange,
     modifyFrameDimentions,
+    applyZoomEffect,
 }
