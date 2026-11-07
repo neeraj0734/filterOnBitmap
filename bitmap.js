@@ -7,6 +7,13 @@ function convertInBrightness(value) {
     }
 }
 
+function constrainFrameInsideBitmap(bitmapRange, frame) {
+    if(frame.x <= bitmapRange.h.st) frame.x = bitmapRange.h.st;
+    if(frame.x + frame.width >= bitmapRange.h.end) frame.x = bitmapRange.h.end - frame.width;
+    if(frame.y <= bitmapRange.v.st) frame.y = bitmapRange.v.st;
+    if(frame.y + frame.height >= bitmapRange.v.end) frame.y = bitmapRange.v.end - frame.height;
+}
+
 function getColoredBitmap(bitmap){
     
     const coloredBitmap = [];
@@ -24,6 +31,15 @@ function getColoredBitmap(bitmap){
     };
 }
 
+function getBitmapRange(x, y, width, height, pixelConfig) {
+    return {
+        h:{st:x * pixelConfig.width, end: width * pixelConfig.width},
+        v:{st:y * pixelConfig.height, end: height * pixelConfig.height},
+    }
+}
+
 module.exports = {
     getColoredBitmap,
+    constrainFrameInsideBitmap,
+    getBitmapRange,
 }

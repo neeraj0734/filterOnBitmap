@@ -1,11 +1,12 @@
 const r = require("raylib");
 const cmd = require("./actionCmd");
+const b = require("./bitmap");
 
 function createFilterFrame(x, y, width, height) {
     return {x, y, width, height}
 }
 
-function moveFrame(frame, pixelConfig) {
+function moveFrame(frame, pixelConfig, bitmap) {
     if (r.IsKeyDown(r.KEY_RIGHT)) {
         frame.x += pixelConfig.height;
     }
@@ -18,7 +19,9 @@ function moveFrame(frame, pixelConfig) {
     if(r.IsKeyDown(r.KEY_DOWN)){
         frame.y += pixelConfig.width;
     }
-    constrainFrameInsideWindow(frame);
+    // constrainFrameInsideWindow(frame);
+    const bitmapRange = b.getBitmapRange(0, 0, bitmap.width, bitmap.height, pixelConfig)
+    b.constrainFrameInsideBitmap(bitmapRange, frame)
 }
 
 function constrainFrameInsideWindow(frame) {
@@ -80,17 +83,12 @@ function modifyFrameDimentions(frame, pixelConfig) {
 function applyZoomEffect(pixel, zoomBy) {
     if (cmd.checkZoomIn()) {
         pixel.width = pixel.width + zoomBy
-        pixel.height = pixel.height + zoomBy
-        console.log("Zoom in");
-        
+        pixel.height = pixel.height + zoomBy        
     }
     if (cmd.checkZoomOut()) {
         pixel.width = pixel.width - zoomBy
-        pixel.height = pixel.height - zoomBy
-        console.log("Zoom Out");
-        
+        pixel.height = pixel.height - zoomBy        
     }
-    console.log(pixel);
     
 }
 

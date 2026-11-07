@@ -58,9 +58,9 @@ function drawBitmapInsideRange(bitmap, range, pixel) {
 
 function update(world) {
     // console.log(world.frame);
-    ff.moveFrame(world.frame, world.pixel)
+    ff.moveFrame(world.frame, world.pixel, world.coloredBitmap)
     ff.modifyFrameDimentions(world.frame, world.pixel)
-    ff.applyZoomEffect(world.pixel, 1)
+    ff.applyZoomEffect(world.pixel, 5)
 }
 
 
@@ -73,8 +73,13 @@ function draw(world) {
     drawBitmapInsideRange(world.coloredBitmap, frameRange, world.pixel)
     r.DrawRectangleLinesEx(world.frame,2, r.RED);
 
-    // const keycode = r.GetKeyPressed()
-    // console.log(keycode)
+    // console.log("Frame Location: ",world.frame);
+    // console.log("PixelConfig: ",world.pixel);
+    
+    // r.DrawText(`Frame location : ${world.frame.x}, ${world.frame.y}`, 10, 10, 18, r.GRAY)
+    // r.DrawText(`Frame dimention : ${world.frame.width}, ${world.frame.height}`, 10, 30, 18, r.GRAY)
+    // r.DrawText(`Pixel : ${world.pixel.width}`, 10, 90, 18, r.GRAY)
+
     r.EndDrawing();
 }
 
